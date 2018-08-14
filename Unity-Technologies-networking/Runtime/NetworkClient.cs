@@ -33,7 +33,6 @@ namespace UnityEngine.Networking
         protected NetworkConnection m_Connection;
 
         byte[] m_MsgBuffer;
-        NetworkReader m_MsgReader;
 
         protected enum ConnectState
         {
@@ -89,7 +88,6 @@ namespace UnityEngine.Networking
         {
             if (LogFilter.logDev) { Debug.Log("Client created version " + Version.Current); }
             m_MsgBuffer = new byte[NetworkMessage.MaxMessageSize];
-            m_MsgReader = new NetworkReader(m_MsgBuffer);
             AddClient(this);
         }
 
@@ -97,7 +95,6 @@ namespace UnityEngine.Networking
         {
             if (LogFilter.logDev) { Debug.Log("Client created version " + Version.Current); }
             m_MsgBuffer = new byte[NetworkMessage.MaxMessageSize];
-            m_MsgReader = new NetworkReader(m_MsgBuffer);
             AddClient(this);
 
             SetActive(true);
@@ -415,9 +412,12 @@ namespace UnityEngine.Networking
                         UnityEditor.NetworkDetailStats.NetworkDirection.Incoming,
                         (short)MsgType.LLAPIMsg, "msg", 1);
 #endif
+                        // create a buffer with exactly 'receivedSize' size for the handlers so we don't need to read
+                        // a size header (saves bandwidth)
+                        byte[] data = new byte[receivedSize];
+                        Array.Copy(m_MsgBuffer, data, receivedSize);
 
-                        m_MsgReader.SeekZero();
-                        m_Connection.TransportReceive(m_MsgBuffer, receivedSize, channelId);
+                        m_Connection.TransportReceive(data, channelId);
                         break;
 
                     case NetworkEventType.DisconnectEvent:
