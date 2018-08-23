@@ -1,12 +1,11 @@
 #if ENABLE_UNET
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace UnityEditor
+namespace Mirror
 {
     public class NetworkScenePostProcess : MonoBehaviour
     {

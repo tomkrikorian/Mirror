@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using UnityEngine.Networking;
+using UnityEditor;
 
-namespace UnityEditor
+namespace Mirror
 {
     [CustomEditor(typeof(NetworkTransformVisualizer), true)]
     [CanEditMultipleObjects]

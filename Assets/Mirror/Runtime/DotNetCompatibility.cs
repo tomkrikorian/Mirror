@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Net.Sockets;
 
-namespace UnityEngine.Networking
+namespace Mirror
 {
     internal static class DotNetCompatibility
     {

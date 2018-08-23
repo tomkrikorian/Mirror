@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
-using UnityEngine.Networking.NetworkSystem;
+using UnityEngine;
 
-namespace UnityEngine.Networking
+namespace Mirror
 {
     public class NetworkClient
     {
@@ -207,6 +207,8 @@ namespace UnityEngine.Networking
             }
         }
 
+        /*
+        TODO use those again? but without NetworkError type
         void GenerateConnectError(byte error)
         {
             if (LogFilter.logError) { Debug.LogError("UNet Client Error Connect Error: " + error); }
@@ -226,6 +228,7 @@ namespace UnityEngine.Networking
             if (LogFilter.logError) { Debug.LogError("UNet Client Disconnect Error: " + disconnectError); }
             GenerateError(error);
         }
+        */
 
         void GenerateError(byte error)
         {

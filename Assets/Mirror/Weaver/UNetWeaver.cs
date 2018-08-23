@@ -9,7 +9,7 @@ using Mono.Cecil.Pdb;
 using Mono.Cecil.Mdb;
 using UnityEngine;
 
-namespace Unity.UNetWeaver
+namespace Mirror.Weaver
 {
     public enum OutSymbolsFormat
     {
