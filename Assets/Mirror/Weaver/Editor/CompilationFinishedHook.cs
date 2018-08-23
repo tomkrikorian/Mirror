@@ -11,9 +11,9 @@ namespace Mirror
 {
     // InitializeOnLoad is needed for Unity to call the static constructor on load
     [InitializeOnLoad]
-    public class CompliationFinishedHook
+    public class CompilationFinishedHook
     {
-        static CompliationFinishedHook()
+        static CompilationFinishedHook()
         {
             // assemblyPath: Library/ScriptAssemblies/Assembly-CSharp.dll/
             // assemblyPath: Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
