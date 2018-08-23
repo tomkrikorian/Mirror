@@ -8,7 +8,6 @@ public class Player : NetworkBehaviour
 
     void Update()
     {
-        Debug.Log("Update -> isServer=" + isServer);
         if (isServer)
         {
             ++count;
