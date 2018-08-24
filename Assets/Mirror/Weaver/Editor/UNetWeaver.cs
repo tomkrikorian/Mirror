@@ -132,6 +132,7 @@ namespace Mirror.Weaver
         public static MethodReference SyncListInitHandleMsg;
         public static MethodReference SyncListClear;
         public static TypeReference NetworkSettingsType;
+        public static TypeReference WeavedType;
 
         // sync list types
         public static TypeReference SyncListFloatType;
@@ -1303,6 +1304,8 @@ namespace Mirror.Weaver
             SyncEventType = m_UNetAssemblyDefinition.MainModule.GetType("Mirror.SyncEventAttribute");
             SyncListType = m_UNetAssemblyDefinition.MainModule.GetType("Mirror.SyncList`1");
             NetworkSettingsType = m_UNetAssemblyDefinition.MainModule.GetType("Mirror.NetworkSettingsAttribute");
+            WeavedType = m_UNetAssemblyDefinition.MainModule.GetType("Mirror.WeavedAttribute");
+
 
             SyncListFloatType = m_UNetAssemblyDefinition.MainModule.GetType("Mirror.SyncListFloat");
             SyncListIntType = m_UNetAssemblyDefinition.MainModule.GetType("Mirror.SyncListInt");
@@ -1781,6 +1784,12 @@ namespace Mirror.Weaver
             var readParams = Helpers.ReaderParameters(assName, dependencies, assemblyResolver, unityEngineDLLPath, unityUNetDLLPath);
             scriptDef = AssemblyDefinition.ReadAssembly(assName, readParams);
 
+            // have we weaved this assembly before?
+            if (IsWeaved(scriptDef))
+                return true;
+
+            MarkAsWeaved(scriptDef);
+
             SetupTargetTypes();
             SetupReadFunctions();
             SetupWriteFunctions();
@@ -1888,6 +1897,30 @@ namespace Mirror.Weaver
                 scriptDef.MainModule.SymbolReader.Dispose();
 
             return true;
+        }
+
+        private static void MarkAsWeaved(AssemblyDefinition scriptDef)
+        {
+            var moduleg = scriptDef.MainModule;
+
+
+            var attributeConstructor =
+                moduleg.ImportReference(
+                    typeof(WeavedAttribute).GetConstructor(Type.EmptyTypes));
+
+            var attribute = new CustomAttribute(attributeConstructor);
+
+            scriptDef.CustomAttributes.Add(attribute);
+        }
+
+        private static bool IsWeaved(AssemblyDefinition scriptDef)
+        {
+            foreach (var ca in scriptDef.CustomAttributes)
+            {
+                if (ca.AttributeType == WeavedType)
+                    return true;
+            }
+            return false;
         }
 
         public static bool WeaveAssemblies(IEnumerable<string> assemblies, IEnumerable<string> dependencies, IAssemblyResolver assemblyResolver, string outputDir, string unityEngineDLLPath, string unityUNetDLLPath)

@@ -9,7 +9,7 @@ public class Player : NetworkBehaviour
 
     public override void OnStartServer()
     {
-        Debug.Log("Hello from player 11");
+        Debug.Log("Hello from player 19");
         base.OnStartServer();
     }
 

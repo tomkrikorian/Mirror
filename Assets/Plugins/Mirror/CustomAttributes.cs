@@ -56,5 +56,10 @@ namespace Mirror
     public class ClientCallbackAttribute : Attribute
     {
     }
+
+    [AttributeUsage(AttributeTargets.Assembly)]
+    public class WeavedAttribute: Attribute
+    {
+    }
 }
 #endif //ENABLE_UNET
