@@ -6,6 +6,7 @@ using Mono.Cecil;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Compilation;
+using UnityEditorInternal;
 
 namespace Mirror
 {
@@ -19,6 +20,8 @@ namespace Mirror
             // assemblyPath: Library/ScriptAssemblies/Assembly-CSharp-Editor.dll
             CompilationPipeline.assemblyCompilationFinished += (assemblyPath, messages) =>
             {
+                EditorApplication.LockReloadAssemblies();
+                                 
                 // UnityEngineCoreModule.DLL path:
                 string unityEngineCoreModuleDLL = UnityEditorInternal.InternalEditorUtility.GetEngineCoreModuleAssemblyPath();
                 //Debug.Log("unityEngineCoreModuleDLL=" + unityEngineCoreModuleDLL);
@@ -37,11 +40,17 @@ namespace Mirror
                     //   IAssemblyResolver assemblyResolver = compilationExtension.GetAssemblyResolver(editor, file, null);
                     // but Weaver creates it's own if null, which is this one:
                     IAssemblyResolver assemblyResolver = new DefaultAssemblyResolver();
-                    if (Weaver.Program.Process(unityEngineCoreModuleDLL, assemblyPath, outputDirectory, new string[1] {assemblyPath}, new string[0], assemblyResolver, Debug.LogWarning, Debug.LogError))
+                    if (Weaver.Program.Process(unityEngineCoreModuleDLL, assemblyPath, outputDirectory, new string[1] { assemblyPath }, new string[0], assemblyResolver, Debug.LogWarning, Debug.LogError))
+                    {
+                        UnityEditorInternal.InternalEditorUtility.RequestScriptReload();
                         Debug.Log("Weaving succeeded for: " + assemblyPath);
+                    }
                     else
                         Debug.LogError("Weaving failed for: " + assemblyPath);
                 }
+
+                EditorApplication.UnlockReloadAssemblies();
+
             };
         }
     }
