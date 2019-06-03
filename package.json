@@ -1,0 +1,13 @@
+{
+  "name": "com.unity.mirror",
+  "displayName": "Mirror",
+  "version": "3.7.8",
+  "unity": "2019.1",
+  "description": "Mirror is a high level Networking API for Unity, supporting different low level Transports.",
+  "keywords": [ "networking", "unet"],
+  "category": "networking",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tomkrikorian/Mirror.git#upmlatest",
+  }
+}
