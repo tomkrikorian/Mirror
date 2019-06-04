@@ -1,8 +1,6 @@
 {
-    "name": "Mirror.Components",
-    "references": [
-        "Mirror"
-    ],
+    "name": "Mirror",
+    "references": [],
     "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -10,5 +8,6 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": []
 }
